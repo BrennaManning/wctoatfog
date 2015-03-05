@@ -30,70 +30,106 @@ class Character():
     def up(self):   
         self.v_y -= 1
 """
-clock = pygame.time.Clock()
 
-# run the game loop
+class Controller:
+    def __init__(self):
+        self.model = 0
 
-lead_x = 300
-lead_y = 300
-vx = 0 
-vy = 0
-
-
-while True:
-    for event in pygame.event.get():
-        print event
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+    # def handle_keyboard event(self, event):
+    #     if event.type == KEYDOWN:
+    #         print "keydown detected!"
 
 
-        if event.type == pygame.KEYDOWN:
-            speed = 10
-            if event.key == pygame.K_LEFT:
+if __name__ == '__main__':
+    clock = pygame.time.Clock()
+    controller = Controller()
+    # run the game loop
+
+    lead_x = 300
+    lead_y = 300
+    vx = 0 
+    vy = 0
+    speed = 10
+
+
+    while True:
+        for event in pygame.event.get():
+    #        print event
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            #if event.type == MOUSEBUTTONDOWN:
+             #   print "mousedown"
+                #controller.handle_keyboard_event(event)
+
+            keys = pygame.key.get_pressed()
+            if keys[K_a]:
+                print "left"
                 vx = -speed
                 vy = 0
-            elif event.key == pygame.K_RIGHT:
-                vx  = speed
+            elif keys[K_d]:
+                print "right"
+                vx = speed
                 vy = 0
-            elif event.key == pygame.K_UP:
+            elif keys[K_w]:
+                print "up"
                 vx = 0
                 vy = -speed
-            elif event.key == pygame.K_DOWN:
+            elif keys[K_s]:
+                print "down"
                 vx = 0
                 vy = speed
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            else:
                 vx = 0
                 vy = 0
 
-    lead_x += vx
-    lead_y += vy
-    windowSurface = pygame.display.set_mode((500, 400), 0, 32)
+            # if event.type == pygame.KEYDOWN:
+            #     print "keydown detected"
+            #     speed = 10
+            #     if event.key == pygame.K_LEFT:
+            #         vx = -speed
+            #         vy = 0
+            #     elif event.key == pygame.K_RIGHT:
+            #         vx  = speed
+            #         vy = 0
+            #     elif event.key == pygame.K_UP:
+            #         vx = 0
+            #         vy = -speed
+            #     elif event.key == pygame.K_DOWN:
+            #         vx = 0
+            #         vy = speed
+            # if event.type == pygame.KEYUP:
+            #     print "keyup detected"
+            #     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            #         vx = 0
+            #         vy = 0
 
-    # set up the colors
-    BLACK = (0, 0, 0)
-    WHITE = (255, 255, 255)
-    RED = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    BLUE = (0, 0, 255)
-    DARKBLUE = (0, 0, 83)
-    PURPLE = (102, 51, 102)
+        lead_x += vx
+        lead_y += vy
+        windowSurface = pygame.display.set_mode((500, 400), 0, 32)
 
-    windowSurface.fill(DARKBLUE)
+        # set up the colors
+        BLACK = (0, 0, 0)
+        WHITE = (255, 255, 255)
+        RED = (255, 0, 0)
+        GREEN = (0, 255, 0)
+        BLUE = (0, 0, 255)
+        DARKBLUE = (0, 0, 83)
+        PURPLE = (102, 51, 102)
 
-    pygame.draw.rect(windowSurface, PURPLE, [0, 0, 500, 20])
-    pygame.draw.rect(windowSurface, PURPLE, [0, 0, 20, 180])
-    pygame.draw.rect(windowSurface, PURPLE, [0, 220, 20, 180])
-    pygame.draw.rect(windowSurface, PURPLE, [480, 0, 20, 180])
-    pygame.draw.rect(windowSurface, PURPLE, [480, 220, 20, 180])
-    pygame.draw.rect(windowSurface, PURPLE, [0, 380, 500, 20])
+        windowSurface.fill(DARKBLUE)
 
-    pygame.draw.rect(windowSurface, GREEN, [lead_x, lead_y, 10, 10])
-    #self.image = pygame.image.load('images/char1.png')
-    #self.image.set_colorkey((255,255,255))
-    pygame.display.update()
-    #clock.tick(60)
+        pygame.draw.rect(windowSurface, PURPLE, [0, 0, 500, 20])
+        pygame.draw.rect(windowSurface, PURPLE, [0, 0, 20, 180])
+        pygame.draw.rect(windowSurface, PURPLE, [0, 220, 20, 180])
+        pygame.draw.rect(windowSurface, PURPLE, [480, 0, 20, 180])
+        pygame.draw.rect(windowSurface, PURPLE, [480, 220, 20, 180])
+        pygame.draw.rect(windowSurface, PURPLE, [0, 380, 500, 20])
+
+        pygame.draw.rect(windowSurface, GREEN, [lead_x, lead_y, 10, 10])
+        #self.image = pygame.image.load('images/char1.png')
+        #self.image.set_colorkey((255,255,255))
+        pygame.display.update()
+        clock.tick(60)
 
         
