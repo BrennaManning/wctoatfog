@@ -1,5 +1,6 @@
 
 import pygame, sys
+import time
 from pygame.locals import *
 # set up pygame
 pygame.init()
@@ -119,8 +120,8 @@ class View():
         pygame.display.update()
 
 class Controller():
-    def __init__(self):
-        self.model = 0
+    def __init__(self,model):
+        self.model = model
 
     # def handle_keyboard event(self, event):
     #     if event.type == KEYDOWN:
