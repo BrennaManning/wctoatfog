@@ -113,10 +113,10 @@ class View():
         """ Redraw the game window """
         self.screen.fill((0,0,83))
         self.drawables = self.model.get_drawables()
-        for d in self.drawables:
-            rect = d.get_rect()
-            surf = d.get_surface()
-            self.screen.blit(surf, rect)
+        #for d in self.drawables:
+            #rect = d.get_rect()
+            #surf = d.get_surface()
+            #self.screen.blit(surf, rect)
         pygame.display.update()
 
 class Controller():
