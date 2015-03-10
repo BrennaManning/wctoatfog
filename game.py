@@ -128,9 +128,10 @@ class Controller():
     #         print "keydown detected!"
     def process_events(self):
         pygame.event.pump()
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
         #if event.type == MOUSEBUTTONDOWN:
          #   print "mousedown"
             #controller.handle_keyboard_event(event)
