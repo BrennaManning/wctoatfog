@@ -5,7 +5,7 @@ from pygame.locals import *
 # set up pygame
 pygame.init()
 # set up the window
-speed = 10
+speed = 500
 
 
 class Model():
@@ -54,16 +54,14 @@ class Background():
         """ Initialize the fabulous background """
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.tile = pygame.image.load('images/stonetile.png')
+        self.surface = pygame.Rect(0, 0, 500, 20)
+
 
     def get_drawables(self):
         """ get the drawables """
         drawables = []
-        return drawables + self.get_ground_drawables()
-
-    def get_ground_drawables(self):
-        """ get the drawables that are the ground and everything on it """
-        drawables = []
-        
+     
         # set up the colors
         BLACK = (0, 0, 0)
         WHITE = (255, 255, 255)
@@ -72,11 +70,42 @@ class Background():
         BLUE = (0, 0, 255)
         DARKBLUE = (0, 0, 83)
         PURPLE = (102, 51, 102)
-        
-        r = [pygame.Rect(0, 0, 500, 20), pygame.Rect(0, 0, 20, 180), pygame.Rect(0, 220, 20, 180), 
+
+        r1 = pygame.Rect(0,
+                        self.screen_height-self.tile.get_rect().height,
+                        self.tile.get_rect().width,
+                        self.tile.get_rect().height)
+        r2 = pygame.Rect(self.screen_width-self.tile.get_rect().width,
+                        self.screen_height-self.tile.get_rect().height,
+                        self.tile.get_rect().width,
+                        self.tile.get_rect().height)
+        r3 = pygame.Rect(0,
+                        self.screen_height-self.tile.get_rect().height,
+                        self.tile.get_rect().width,
+                        self.tile.get_rect().height)
+        r4 = pygame.Rect(0,
+                        0,
+                        self.tile.get_rect().width,
+                        self.tile.get_rect().height)
+
+        for i in range(17):
+            drawables.append(DrawableSurface(self.tile,r1))
+            r1 = r1.move(self.tile.get_rect().width,0)
+            drawables.append(DrawableSurface(self.tile,r2))
+            r2 = r2.move(0,-self.tile.get_rect().height)
+            drawables.append(DrawableSurface(self.tile,r3))
+            r3 = r3.move(0,-self.tile.get_rect().height)
+            drawables.append(DrawableSurface(self.tile,r4))
+            r4 = r4.move(self.tile.get_rect().width,0)
+
+        r = [pygame.Rect(0, 0, 30, 24), pygame.Rect(0, 0, 20, 180), pygame.Rect(0, 220, 20, 180), 
                         pygame.Rect(480, 0, 20, 180), pygame.Rect(480, 220, 20, 180), pygame.Rect(0, 380, 500, 20)]
+
+
         for rect in r:
-            drawables.append(DrawableSurface(PURPLE,rect))
+
+            drawables.append(DrawableSurface(self.tile, rect))
+        
         return drawables
 
 
@@ -113,10 +142,10 @@ class View():
         """ Redraw the game window """
         self.screen.fill((0,0,83))
         self.drawables = self.model.get_drawables()
-        #for d in self.drawables:
-            #rect = d.get_rect()
-            #surf = d.get_surface()
-            #self.screen.blit(surf, rect)
+        for d in self.drawables:
+            rect = d.get_rect()
+            surf = d.get_surface()
+            self.screen.blit(surf, rect)
         pygame.display.update()
 
 class Controller():
@@ -173,7 +202,7 @@ class WCToatfog():
             self.controller.process_events()
             dt = time.time() - last_update_time
             self.model.update(dt)
-            print dt
+            #print dt
             last_update_time = time.time()
 
 if __name__ == '__main__':
