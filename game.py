@@ -2,6 +2,7 @@
 import pygame, sys
 import time
 from pygame.locals import *
+import random
 # set up pygame
 pygame.init()
 # set up the window
@@ -17,10 +18,14 @@ class Model():
         self.wc = WC(width/2, height/2)
         self.background = Background(width, height)
         self.obstacles = []
+        self.enemy1 = enemy(width/4, height/4)
+        self.enemy2 = enemy(3*width/4, height/4)
+        self.enemy3 = enemy(width/4, 3*height/4)
+        self.enemy4 = enemy(3*width/4, 3*height/4)
 
     def get_drawables(self):
         """ Return a list of DrawableSurfaces for the model """
-        drawables = self.background.get_drawables()+self.wc.get_drawables()
+        drawables = self.background.get_drawables()+self.wc.get_drawables()+self.enemy1.get_drawables()+self.enemy2.get_drawables()+self.enemy3.get_drawables()+self.enemy4.get_drawables()
         for obstacle in self.obstacles:
             drawables += obstacle.get_drawables()
         return drawables
@@ -29,9 +34,24 @@ class Model():
         """ returns the amazing W.C. Toatfog """
         return self.wc
 
+
+    def is_dead(self):
+        """ Return True if the player is dead (for instance) the player
+            has collided with an obstacle, and false otherwise """
+        #player_rect = self.get_player().get_drawables()[0]
+        #enemy1_rect = self.enemy1.get_drawables()[0]
+        if self.wc.pos_x == self.enemy1.pos_x:
+            return True
+        
+        return False
+
     def update(self, dt):
         """ Updates model and such """
         self.wc.update(dt)
+        self.enemy1.update(dt)
+        self.enemy2.update(dt)
+        self.enemy3.update(dt)
+        self.enemy4.update(dt)
 
 class DrawableSurface():
 
@@ -55,7 +75,7 @@ class Background():
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.tile = pygame.image.load('images/stonetile.png')
-        self.surface = pygame.Rect(0, 0, 500, 20)
+        
 
 
     def get_drawables(self):
@@ -116,7 +136,6 @@ class WC():
         self.pos_y = pos_y
         self.v_x = 0
         self.v_y = 0
-        # TODO: don't depend on relative path
         self.image = pygame.image.load('images/char1.png')
         self.image.set_colorkey((255,255,255))
 
@@ -124,6 +143,27 @@ class WC():
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
 
     def update(self, delta_t):
+        self.pos_x += self.v_x*delta_t
+        self.pos_y += self.v_y*delta_t
+
+class enemy():
+    def __init__(self,pos_x,pos_y):
+    
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.v_x = random.randint(50,100)*((2*random.randint(0,1)-1))
+        self.v_y = random.randint(50,100)*((2*random.randint(0,1)-1))
+        self.image = pygame.image.load('images/enemy.png')
+        self.image.set_colorkey((255,255,255))
+
+    def get_drawables(self):
+        return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
+
+    def update(self, delta_t):
+        if self.pos_x < 30 or self.pos_x > 445:
+            self.v_x = -1.1*self.v_x
+        if self.pos_y < 24 or self.pos_y > 351:
+            self.v_y = -1.1*self.v_y
         self.pos_x += self.v_x*delta_t
         self.pos_y += self.v_y*delta_t
 
@@ -165,20 +205,16 @@ class Controller():
          #   print "mousedown"
             #controller.handle_keyboard_event(event)
         keys = pygame.key.get_pressed()
-        if keys[K_a]:
-            #print "left"
+        if keys[K_LEFT] and self.model.wc.pos_x > 30:
             self.model.wc.v_x = -speed
             self.model.wc.v_y = 0
-        elif keys[K_d]:
-            #print "right"
+        elif keys[K_RIGHT] and self.model.wc.pos_x < 445:
             self.model.wc.v_x = speed
             self.model.wc.v_y = 0
-        elif keys[K_w]:
-            #print "up"
+        elif keys[K_UP]and self.model.wc.pos_y > 24:
             self.model.wc.v_x = 0
             self.model.wc.v_y = -speed
-        elif keys[K_s]:
-            #print "down"
+        elif keys[K_DOWN] and self.model.wc.pos_y < 351:
             self.model.wc.v_x = 0
             self.model.wc.v_y = speed
         else:
@@ -197,7 +233,8 @@ class WCToatfog():
         """ main runloop """
         frame_count = 0
         last_update_time = time.time()
-        while True:
+        while not(self.model.is_dead()):
+        #while True:
             self.view.draw()
             self.controller.process_events()
             dt = time.time() - last_update_time
