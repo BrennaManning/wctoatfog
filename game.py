@@ -40,8 +40,8 @@ class Model():
             has collided with an obstacle, and false otherwise """
         #player_rect = self.get_player().get_drawables()[0]
         #enemy1_rect = self.enemy1.get_drawables()[0]
-        if self.wc.pos_x == self.enemy1.pos_x:
-            return True
+        #if abs(self.wc.pos_x-self.enemy1.pos_x) <= 25 or abs(self.wc.pos_y-self.enemy1.pos_y) <= 25:
+        #    return True
         
         return False
 
@@ -160,10 +160,14 @@ class enemy():
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
 
     def update(self, delta_t):
-        if self.pos_x < 30 or self.pos_x > 445:
-            self.v_x = -1.1*self.v_x
-        if self.pos_y < 24 or self.pos_y > 351:
-            self.v_y = -1.1*self.v_y
+        if self.pos_x < 30:
+            self.v_x = 1.05*abs(self.v_x)
+        elif self.pos_x > 445:
+            self.v_x = -1.05*abs(self.v_x)
+        elif self.pos_y < 24:
+            self.v_y = 1.05*abs(self.v_y)
+        elif self.pos_y > 351:
+            self.v_y = -1.05*abs(self.v_y)
         self.pos_x += self.v_x*delta_t
         self.pos_y += self.v_y*delta_t
 
