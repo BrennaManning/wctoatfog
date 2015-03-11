@@ -62,7 +62,26 @@ class Model():
         #if self.wc.rect.colliderect(self.enemy1.rect):
             #return True
         
-        return False
+        if self.wc.pos_x + 10 > self.enemy1.pos_x -10 and self.wc.pos_x -10 < self.enemy1.pos_x + 10 and self.wc.pos_y + 10 > self.enemy1.pos_y -10 and self.wc.pos_y -10 < self.enemy1.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+                return True
+        if self.wc.pos_x + 10 > self.enemy2.pos_x -10 and self.wc.pos_x -10 < self.enemy2.pos_x + 10 and self.wc.pos_y + 10 > self.enemy2.pos_y -10 and self.wc.pos_y -10 < self.enemy2.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+                return True
+        if self.wc.pos_x + 10 > self.enemy3.pos_x -10 and self.wc.pos_x -10 < self.enemy3.pos_x + 10 and self.wc.pos_y + 10 > self.enemy3.pos_y -10 and self.wc.pos_y -10 < self.enemy3.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+                return True
+        if self.wc.pos_x + 10 > self.enemy4.pos_x -10 and self.wc.pos_x -10 < self.enemy4.pos_x + 10 and self.wc.pos_y + 10 > self.enemy4.pos_y -10 and self.wc.pos_y -10 < self.enemy4.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+                return True
+        #elif self.wc.pos_x > self.enemy2.pos_x  and self.wc.pos_x < self.enemy2.pos_x + 25 and self.wc.pos_y < self.enemy2.pos_y and self.enemy2.pos_y > self.enemy2.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+            #return True
+
+        #elif self.wc.pos_x > self.enemy3.pos_x  and self.wc.pos_x < self.enemy3.pos_x + 25 and self.wc.pos_y < self.enemy3.pos_y and self.enemy3.pos_y > self.enemy3.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+            #return True
+        
+
+        #elif self.wc.pos_x > self.enemy4.pos_x  and self.wc.pos_x < self.enemy4.pos_x + 25 and self.wc.pos_y < self.enemy4.pos_y and self.enemy4.pos_y > self.enemy4.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
+            #return True
+        
+        else:
+            return False 
 
     def update(self, dt):
         """ Updates model and such """
