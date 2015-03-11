@@ -3,8 +3,25 @@ import pygame, sys
 import time
 from pygame.locals import *
 import random
+
+
+
 # set up pygame
 pygame.init()
+
+
+font = pygame.font.SysFont(None, 32)
+
+clock = pygame.time.Clock()
+
+start_time = pygame.time.get_ticks() 
+
+
+
+
+
+
+
 # set up the window
 speed = 500
 
@@ -42,6 +59,8 @@ class Model():
         #enemy1_rect = self.enemy1.get_drawables()[0]
         #if abs(self.wc.pos_x-self.enemy1.pos_x) <= 25 or abs(self.wc.pos_y-self.enemy1.pos_y) <= 25:
         #    return True
+        #if self.wc.rect.colliderect(self.enemy1.rect):
+            #return True
         
         return False
 
@@ -138,6 +157,7 @@ class WC():
         self.v_y = 0
         self.image = pygame.image.load('images/char1.png')
         self.image.set_colorkey((255,255,255))
+        self.rect = self.image.get_rect()
 
     def get_drawables(self):
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
@@ -155,7 +175,7 @@ class enemy():
         self.v_y = random.randint(50,100)*((2*random.randint(0,1)-1))
         self.image = pygame.image.load('images/enemy.png')
         self.image.set_colorkey((255,255,255))
-
+        self.rect = self.image.get_rect()
     def get_drawables(self):
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
 
@@ -190,6 +210,26 @@ class View():
             rect = d.get_rect()
             surf = d.get_surface()
             self.screen.blit(surf, rect)
+
+            counting_time = pygame.time.get_ticks() - start_time
+
+            # change milliseconds into minutes, seconds, milliseconds
+            #counting_minutes = str(counting_time/60000).zfill(2)
+            counting_seconds = str( (counting_time%60000)/1000 ).zfill(2)
+            #counting_millisecond = str(counting_time%1000).zfill(3)
+
+            #counting_string = "%s:%s:%s" % (counting_minutes, counting_seconds, counting_millisecond)
+
+            counting_string = "%s" % (counting_seconds)
+
+            counting_text = font.render(str(counting_string), 1, (51,255,255))
+            #counting_text = font.render(str(counting_seconds), 1 (255,255,255))
+            counting_rect = counting_text.get_rect(center = (30,12))
+
+            self.screen.blit(counting_text, counting_rect)
+
+        
+
         pygame.display.update()
 
 class Controller():
@@ -246,95 +286,10 @@ class WCToatfog():
             #print dt
             last_update_time = time.time()
 
+
+
 if __name__ == '__main__':
     game = WCToatfog()
     game.run()
     # run the game loop
-    """
-    lead_x = 300
-    lead_y = 300
-    vx = 0 
-    vy = 0
-    speed = 10
-
-
-    while True:
-        for event in pygame.event.get():
-    #        print event
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == MOUSEBUTTONDOWN:
-               print "mousedown"
-                controller.handle_keyboard_event(event)
-
-            keys = pygame.key.get_pressed()
-            if keys[K_a]:
-                print "left"
-                vx = -speed
-                vy = 0
-            elif keys[K_d]:
-                print "right"
-                vx = speed
-                vy = 0
-            elif keys[K_w]:
-                print "up"
-                vx = 0
-                vy = -speed
-            elif keys[K_s]:
-                print "down"
-                vx = 0
-                vy = speed
-            else:
-                vx = 0
-                vy = 0
-
-            if event.type == pygame.KEYDOWN:
-                print "keydown detected"
-                speed = 10
-                if event.key == pygame.K_LEFT:
-                    vx = -speed
-                    vy = 0
-                elif event.key == pygame.K_RIGHT:
-                    vx  = speed
-                    vy = 0
-                elif event.key == pygame.K_UP:
-                    vx = 0
-                    vy = -speed
-                elif event.key == pygame.K_DOWN:
-                    vx = 0
-                    vy = speed
-            if event.type == pygame.KEYUP:
-                print "keyup detected"
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    vx = 0
-                    vy = 0
-
-        lead_x += vx
-        lead_y += vy
-        windowSurface = pygame.display.set_mode((500, 400), 0, 32)
-
-        # set up the colors
-        BLACK = (0, 0, 0)
-        WHITE = (255, 255, 255)
-        RED = (255, 0, 0)
-        GREEN = (0, 255, 0)
-        BLUE = (0, 0, 255)
-        DARKBLUE = (0, 0, 83)
-        PURPLE = (102, 51, 102)
-
-        windowSurface.fill(DARKBLUE)
-
-        pygame.draw.rect(windowSurface, PURPLE, [0, 0, 500, 20])
-        pygame.draw.rect(windowSurface, PURPLE, [0, 0, 20, 180])
-        pygame.draw.rect(windowSurface, PURPLE, [0, 220, 20, 180])
-        pygame.draw.rect(windowSurface, PURPLE, [480, 0, 20, 180])
-        pygame.draw.rect(windowSurface, PURPLE, [480, 220, 20, 180])
-        pygame.draw.rect(windowSurface, PURPLE, [0, 380, 500, 20])
-
-        pygame.draw.rect(windowSurface, GREEN, [lead_x, lead_y, 10, 10])
-        #self.image = pygame.image.load('images/char1.png')
-        #self.image.set_colorkey((255,255,255))
-        pygame.display.update()
-        clock.tick(60)
-"""
+   
