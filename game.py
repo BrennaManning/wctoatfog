@@ -8,6 +8,7 @@ import random
 
 # set up pygame
 pygame.init()
+pygame.mixer.init()
 
 font = pygame.font.SysFont(None, 32)
 clock = pygame.time.Clock()
@@ -144,7 +145,7 @@ class WC():
         self.pos_x += self.v_x*delta_t
         self.pos_y += self.v_y*delta_t
 
-class enemy():
+class Enemy():
     """ The enemies are such jerkfaces """
     def __init__(self,pos_x,pos_y):
         """ Initialize enemy """
