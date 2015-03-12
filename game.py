@@ -1,3 +1,6 @@
+""" This is W.C. Toatfog! We (Brenna and Joe) made this.
+    You control the titular character, W.C. Toatfog, and you avoid the ghosts.
+    They kill you. Have fun! """
 import pygame, sys
 import time
 from pygame.locals import *
