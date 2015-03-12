@@ -1,30 +1,15 @@
-
 import pygame, sys
 import time
 from pygame.locals import *
 import random
 
-
-
 # set up pygame
 pygame.init()
 
-
 font = pygame.font.SysFont(None, 32)
-
 clock = pygame.time.Clock()
-
-start_time = pygame.time.get_ticks() 
-
-
-
-
-
-
-
-# set up the window
+start_time = pygame.time.get_ticks()
 speed = 500
-
 
 class Model():
     """ Our model """
@@ -51,17 +36,9 @@ class Model():
         """ returns the amazing W.C. Toatfog """
         return self.wc
 
-
     def is_dead(self):
         """ Return True if the player is dead (for instance) the player
             has collided with an obstacle, and false otherwise """
-        #player_rect = self.get_player().get_drawables()[0]
-        #enemy1_rect = self.enemy1.get_drawables()[0]
-        #if abs(self.wc.pos_x-self.enemy1.pos_x) <= 25 or abs(self.wc.pos_y-self.enemy1.pos_y) <= 25:
-        #    return True
-        #if self.wc.rect.colliderect(self.enemy1.rect):
-            #return True
-        
         if self.wc.pos_x + 10 > self.enemy1.pos_x -10 and self.wc.pos_x -10 < self.enemy1.pos_x + 10 and self.wc.pos_y + 10 > self.enemy1.pos_y -10 and self.wc.pos_y -10 < self.enemy1.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
                 return True
         if self.wc.pos_x + 10 > self.enemy2.pos_x -10 and self.wc.pos_x -10 < self.enemy2.pos_x + 10 and self.wc.pos_y + 10 > self.enemy2.pos_y -10 and self.wc.pos_y -10 < self.enemy2.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
@@ -70,16 +47,6 @@ class Model():
                 return True
         if self.wc.pos_x + 10 > self.enemy4.pos_x -10 and self.wc.pos_x -10 < self.enemy4.pos_x + 10 and self.wc.pos_y + 10 > self.enemy4.pos_y -10 and self.wc.pos_y -10 < self.enemy4.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
                 return True
-        #elif self.wc.pos_x > self.enemy2.pos_x  and self.wc.pos_x < self.enemy2.pos_x + 25 and self.wc.pos_y < self.enemy2.pos_y and self.enemy2.pos_y > self.enemy2.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
-            #return True
-
-        #elif self.wc.pos_x > self.enemy3.pos_x  and self.wc.pos_x < self.enemy3.pos_x + 25 and self.wc.pos_y < self.enemy3.pos_y and self.enemy3.pos_y > self.enemy3.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
-            #return True
-        
-
-        #elif self.wc.pos_x > self.enemy4.pos_x  and self.wc.pos_x < self.enemy4.pos_x + 25 and self.wc.pos_y < self.enemy4.pos_y and self.enemy4.pos_y > self.enemy4.pos_y -25:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
-            #return True
-        
         else:
             return False 
 
@@ -92,7 +59,7 @@ class Model():
         self.enemy4.update(dt)
 
 class DrawableSurface():
-
+    """ Is any drawable surface """
     def __init__(self, surface, rect):
         """ Initialize drawable surface """
         self.surface = surface
@@ -114,20 +81,9 @@ class Background():
         self.screen_height = screen_height
         self.tile = pygame.image.load('images/stonetile.png')
         
-
-
     def get_drawables(self):
         """ get the drawables """
         drawables = []
-     
-        # set up the colors
-        BLACK = (0, 0, 0)
-        WHITE = (255, 255, 255)
-        RED = (255, 0, 0)
-        GREEN = (0, 255, 0)
-        BLUE = (0, 0, 255)
-        DARKBLUE = (0, 0, 83)
-        PURPLE = (102, 51, 102)
 
         r1 = pygame.Rect(0,
                         self.screen_height-self.tile.get_rect().height,
@@ -159,17 +115,15 @@ class Background():
         r = [pygame.Rect(0, 0, 30, 24), pygame.Rect(0, 0, 20, 180), pygame.Rect(0, 220, 20, 180), 
                         pygame.Rect(480, 0, 20, 180), pygame.Rect(480, 220, 20, 180), pygame.Rect(0, 380, 500, 20)]
 
-
         for rect in r:
-
             drawables.append(DrawableSurface(self.tile, rect))
         
         return drawables
 
-
 class WC():
+    """ W.C. Toatfog comes to life! """
     def __init__(self,pos_x,pos_y):
-    
+        """ Initialize the sir and/or madam W.C. Toatfog """
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.v_x = 0
@@ -179,15 +133,18 @@ class WC():
         self.rect = self.image.get_rect()
 
     def get_drawables(self):
+        """ Get the picture of W.C. Toatfog """
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
 
     def update(self, delta_t):
+        """ Update the position """
         self.pos_x += self.v_x*delta_t
         self.pos_y += self.v_y*delta_t
 
 class enemy():
+    """ The enemies are such jerkfaces """
     def __init__(self,pos_x,pos_y):
-    
+        """ Initialize enemy """
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.v_x = random.randint(50,100)*((2*random.randint(0,1)-1))
@@ -195,25 +152,26 @@ class enemy():
         self.image = pygame.image.load('images/enemy.png')
         self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
+
     def get_drawables(self):
+        """ Get the picture of the enemy """
         return [DrawableSurface(self.image, self.image.get_rect().move(self.pos_x, self.pos_y))]
 
     def update(self, delta_t):
+        """ Update the position """
         if self.pos_x < 30:
-            self.v_x = 1.05*abs(self.v_x)
+            self.v_x = 10+abs(self.v_x)
         elif self.pos_x > 445:
-            self.v_x = -1.05*abs(self.v_x)
+            self.v_x = -10-abs(self.v_x)
         elif self.pos_y < 24:
-            self.v_y = 1.05*abs(self.v_y)
+            self.v_y = 10+abs(self.v_y)
         elif self.pos_y > 351:
-            self.v_y = -1.05*abs(self.v_y)
+            self.v_y = -10-abs(self.v_y)
         self.pos_x += self.v_x*delta_t
         self.pos_y += self.v_y*delta_t
 
-    #def up(self):   
-    #    self.v_y -= 1
-
 class View():
+    """ Our view of things """
     def __init__(self, model, width, height):
         """ Initialize view """
         pygame.init()
@@ -234,40 +192,27 @@ class View():
             counting_time = pygame.time.get_ticks() - start_time
 
             # change milliseconds into minutes, seconds, milliseconds
-            #counting_minutes = str(counting_time/60000).zfill(2)
-            self.counting_seconds = str( (counting_time%60000)/1000 ).zfill(2)
-            #counting_millisecond = str(counting_time%1000).zfill(3)
-
-            #counting_string = "%s:%s:%s" % (counting_minutes, counting_seconds, counting_millisecond)
-
+            self.counting_seconds = str( (counting_time%60000)/1000 ).zfill(3)
             counting_string = "%s" % (self.counting_seconds)
-
             counting_text = font.render(str(counting_string), 1, (51,255,255))
-            #counting_text = font.render(str(counting_seconds), 1 (255,255,255))
             counting_rect = counting_text.get_rect(center = (30,12))
-
             self.screen.blit(counting_text, counting_rect)
-
-        
 
         pygame.display.update()
 
 class Controller():
+    """ All your base are belong to us (this is our controller) """
     def __init__(self,model):
+        """ Initialize the controller """
         self.model = model
 
-    # def handle_keyboard event(self, event):
-    #     if event.type == KEYDOWN:
-    #         print "keydown detected!"
     def process_events(self):
+        """ Process each event so that keys (and the exit button) work """
         pygame.event.pump()
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-        #if event.type == MOUSEBUTTONDOWN:
-         #   print "mousedown"
-            #controller.handle_keyboard_event(event)
         keys = pygame.key.get_pressed()
         if keys[K_LEFT] and self.model.wc.pos_x > 30:
             self.model.wc.v_x = -speed
@@ -298,19 +243,14 @@ class WCToatfog():
         frame_count = 0
         last_update_time = time.time()
         while not(self.model.is_dead()):
-        #while True:
             self.view.draw()
             self.controller.process_events()
             dt = time.time() - last_update_time
             self.model.update(dt)
-            #print dt
             last_update_time = time.time()
         print "You lasted", int(self.view.counting_seconds), "seconds!"
 
-
-
 if __name__ == '__main__':
+    """ Setup game """
     game = WCToatfog()
     game.run()
-    # run the game loop
-   
