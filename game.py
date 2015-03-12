@@ -220,6 +220,7 @@ class View():
         self.screen = pygame.display.set_mode((width, height))
         self.screen_boundaries = pygame.Rect(0,0,width,height)
         self.model = model
+        self.counting_seconds = 0
 
     def draw(self):
         """ Redraw the game window """
@@ -234,12 +235,12 @@ class View():
 
             # change milliseconds into minutes, seconds, milliseconds
             #counting_minutes = str(counting_time/60000).zfill(2)
-            counting_seconds = str( (counting_time%60000)/1000 ).zfill(2)
+            self.counting_seconds = str( (counting_time%60000)/1000 ).zfill(2)
             #counting_millisecond = str(counting_time%1000).zfill(3)
 
             #counting_string = "%s:%s:%s" % (counting_minutes, counting_seconds, counting_millisecond)
 
-            counting_string = "%s" % (counting_seconds)
+            counting_string = "%s" % (self.counting_seconds)
 
             counting_text = font.render(str(counting_string), 1, (51,255,255))
             #counting_text = font.render(str(counting_seconds), 1 (255,255,255))
@@ -304,6 +305,7 @@ class WCToatfog():
             self.model.update(dt)
             #print dt
             last_update_time = time.time()
+        print "You lasted", int(self.view.counting_seconds), "seconds!"
 
 
 
