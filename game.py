@@ -24,10 +24,10 @@ class Model():
         self.wc = WC(width/2, height/2)
         self.background = Background(width, height)
         self.obstacles = []
-        self.enemy1 = enemy(width/4, height/4)
-        self.enemy2 = enemy(3*width/4, height/4)
-        self.enemy3 = enemy(width/4, 3*height/4)
-        self.enemy4 = enemy(3*width/4, 3*height/4)
+        self.enemy1 = Enemy(width/4, height/4)
+        self.enemy2 = Enemy(3*width/4, height/4)
+        self.enemy3 = Enemy(width/4, 3*height/4)
+        self.enemy4 = Enemy(3*width/4, 3*height/4)
 
     def get_drawables(self):
         """ Return a list of DrawableSurfaces for the model """
