@@ -196,10 +196,11 @@ class View():
             counting_time = pygame.time.get_ticks() - start_time
 
             # change milliseconds into minutes, seconds, milliseconds
-            self.counting_seconds = str( (counting_time%60000)/1000 ).zfill(3)
-            counting_string = "%s" % (self.counting_seconds)
+            self.counting_seconds = str( (counting_time%60000)/1000 ).zfill(2)
+            self.counting_minutes = str( (counting_time%60000)/60000 ).zfill(2)
+            counting_string = "%s:" % (self.counting_minutes) + "%s" % (self.counting_seconds)
             counting_text = font.render(str(counting_string), 1, (51,255,255))
-            counting_rect = counting_text.get_rect(center = (30,12))
+            counting_rect = counting_text.get_rect(center = (56,12))
             self.screen.blit(counting_text, counting_rect)
 
         pygame.display.update()
@@ -252,7 +253,7 @@ class WCToatfog():
             dt = time.time() - last_update_time
             self.model.update(dt)
             last_update_time = time.time()
-        print "You lasted", int(self.view.counting_seconds), "seconds!"
+        print "You lasted", int(self.view.counting_minutes), "minutes and", int(self.view.counting_seconds), "seconds!"
 
 if __name__ == '__main__':
     """ Setup game """
