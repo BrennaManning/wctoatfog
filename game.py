@@ -6,15 +6,6 @@ import time
 from pygame.locals import *
 import random
 
-# set up pygame
-pygame.init()
-pygame.mixer.init()
-
-font = pygame.font.SysFont(None, 32)
-clock = pygame.time.Clock()
-start_time = pygame.time.get_ticks()
-speed = 500
-
 class Model():
     """ Our model """
     def __init__(self,width,height):
@@ -25,7 +16,7 @@ class Model():
         self.background = Background(width, height)
         self.obstacles = []
         self.enemy1 = Enemy(width/4, height/4)
-        self.enemy2 = Enemy(3*width/4, height/4)
+        self.enemy2 = Enemy(3*width/4, height/4) #What are these numbers and what do they mean? Comments helpful here
         self.enemy3 = Enemy(width/4, 3*height/4)
         self.enemy4 = Enemy(3*width/4, 3*height/4)
 
@@ -43,6 +34,7 @@ class Model():
     def is_dead(self):
         """ Return True if the player is dead (for instance) the player
             has collided with an obstacle, and false otherwise """
+        #Clean this up for final turn in. Also, try to do this in a loop.
         if self.wc.pos_x + 10 > self.enemy1.pos_x -10 and self.wc.pos_x -10 < self.enemy1.pos_x + 10 and self.wc.pos_y + 10 > self.enemy1.pos_y -10 and self.wc.pos_y -10 < self.enemy1.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
                 return True
         if self.wc.pos_x + 10 > self.enemy2.pos_x -10 and self.wc.pos_x -10 < self.enemy2.pos_x + 10 and self.wc.pos_y + 10 > self.enemy2.pos_y -10 and self.wc.pos_y -10 < self.enemy2.pos_y +10:# and self.wc.pos_y > self.enemy1.pos_y + 13 and self.wc.pos_y < self.enemy1.pos_y - 13 : 
@@ -86,7 +78,10 @@ class Background():
         self.tile = pygame.image.load('images/stonetile.png')
         
     def get_drawables(self):
-        """ get the drawables """
+        """ get the drawables 
+        This docstring needs to be a lot more detailed. r1 is not a descriptive variable name so it's hard
+        to understand what's going on in this function
+        """
         drawables = []
 
         r1 = pygame.Rect(0,
@@ -106,7 +101,7 @@ class Background():
                         self.tile.get_rect().width,
                         self.tile.get_rect().height)
 
-        for i in range(17):
+        for i in range(17): #Why 17? Comment here
             drawables.append(DrawableSurface(self.tile,r1))
             r1 = r1.move(self.tile.get_rect().width,0)
             drawables.append(DrawableSurface(self.tile,r2))
@@ -146,12 +141,12 @@ class WC():
         self.pos_y += self.v_y*delta_t
 
 class Enemy():
-    """ The enemies are such jerkfaces """
+    """ The enemies are such jerkfaces """ #<--Haha, but in future keep comments professional. You wanna look good when recruiters look at your Github
     def __init__(self,pos_x,pos_y):
         """ Initialize enemy """
         self.pos_x = pos_x
         self.pos_y = pos_y
-        self.v_x = random.randint(50,100)*((2*random.randint(0,1)-1))
+        self.v_x = random.randint(50,100)*((2*random.randint(0,1)-1)) #What is this doing?
         self.v_y = random.randint(50,100)*((2*random.randint(0,1)-1))
         self.image = pygame.image.load('images/enemy.png')
         self.image.set_colorkey((255,255,255))
@@ -219,7 +214,7 @@ class Controller():
                 pygame.quit()
                 sys.exit()
         keys = pygame.key.get_pressed()
-        if keys[K_LEFT] and self.model.wc.pos_x > 30:
+        if keys[K_LEFT] and self.model.wc.pos_x > 30: #These numbers seem super random, you should explain how you determined them
             self.model.wc.v_x = -speed
             self.model.wc.v_y = 0
         elif keys[K_RIGHT] and self.model.wc.pos_x < 445:
@@ -253,9 +248,20 @@ class WCToatfog():
             dt = time.time() - last_update_time
             self.model.update(dt)
             last_update_time = time.time()
+        #Consider gracefully exiting your game, right now it crashes to the terminal and is slightly jarring
         print "You lasted", int(self.view.counting_minutes), "minutes and", int(self.view.counting_seconds), "seconds!"
 
 if __name__ == '__main__':
     """ Setup game """
+    
+    # set up pygame <--Everything should be enveloped in a function for good practices
+    pygame.init() 
+    pygame.mixer.init()
+
+    font = pygame.font.SysFont(None, 32)
+    clock = pygame.time.Clock()
+    start_time = pygame.time.get_ticks()
+    speed = 500
+
     game = WCToatfog()
     game.run()
